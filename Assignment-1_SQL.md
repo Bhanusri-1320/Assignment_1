@@ -21,7 +21,6 @@ Please make sure to create your own data for these tables to test your queries e
 ```sql
 1. **Customers:**
 -------- Customers_Table-1-----------
-> ![Customer_Table](image.png)
  create table Customers(
     customer_id int Primary Key,
 	first_name nvarchar(20),
@@ -47,7 +46,6 @@ VALUES
 --------------------------------------------------------------------------------------------------------------------------------------
 2. **Accounts:**
 -----------------------Accounts_Table-2----------------------------
-> ![Accounts](image-1.png)
 CREATE TABLE Accounts (
     account_id INT PRIMARY KEY,
     customer_id INT,
@@ -70,7 +68,6 @@ VALUES
 ----------------------------------------------------------------------------------------------------------------------------------------
 ----3. **Transactions:**
 -------------------Transactions_Table-3--------------------
-> ![Transactions](image-2.png)
    create table Transactions(
    transaction_id int Primary Key,
    account_id int,
@@ -94,7 +91,6 @@ VALUES
 -----------------------------------------------------------------------------------------------------------------
 
 -------4. **InterestRates:**---------------------
-> ![IntrestRate](image-3.png)
    create table InterestRates(
    intrest_rate_id int Primary Key,
    account_type nvarchar(20),
@@ -114,8 +110,7 @@ VALUES
     (9, 'savings', 1),
     (10, 'current', 1);
 -----------------------------------------------------------------------------------------------------------------
-------5. **Branches:**----
-> ![Branches](image-4.png)
+------5. **Branches:**
 create table Branches(
 branch_id int Primary Key,
 branch_name nvarchar(30),
@@ -145,7 +140,6 @@ select * from InterestRates
 -----------------------------------------------------------------------------------------------------------------------------------
 
 -----2. Write a SQL query to retrieve the name, account type, and email of all customers.
-> ![alt text](image-6.png)
 select concat(first_name,' ', last_name) as full_name , email, account_type
  from Customers
  join Accounts
@@ -154,7 +148,6 @@ select concat(first_name,' ', last_name) as full_name , email, account_type
  ----------------------------------------------------------------------------------------------------------------------------------
 
 -------3. Write a SQL query to list all transactions along with the corresponding customer.
-> ![alt text](image-7.png)
 select concat(first_name,' ', last_name) as full_name,transaction_type,amount,transaction_date from Customers
 join
 Accounts
@@ -166,7 +159,6 @@ on Accounts.account_id=Transactions.account_id
 -----------------------------------------------------------------------------------------------------------------------------
 
 ---4. Write a SQL query to increase the balance of a specific account by a certain amount.
-> ![alt text](image-8.png)
 --let increase amount=500
 update Transactions
 set amount=amount-500
@@ -175,35 +167,30 @@ where account_id=3
 --------------------------------------------------------------------------------------------------------------------------------
 
 -------5. Write a SQL query to combine the first and last names of customers as `full_name`.
-> ![alt text](image-11.png)
 select concat(first_name,' ', last_name) as full_name
 from Customers
 
 -----------------------------------------------------------------------------------------------------------------------------------
 
 --6. Write a SQL query to remove accounts with a balance of zero where the account type is savings.
-> ![alt text](image-12.png)
 delete from Accounts
 where balance=0 and account_type='savings'
 
 -----------------------------------------------------------------------------------------------------------------------------
 
 -----7. Write a SQL query to find customers living in a specific city.
-> ![alt text](image-13.png)
 select * from Customers
 where address like '%Blvd%'
 
 -------------------------------------------------------------------------------------------------------------------------------
 
 ---8. Write a SQL query to get the account balance for a specific account.
-> ![alt text](image-14.png)
 select balance from Accounts
 where account_id=5
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
 --9. Write a SQL query to calculate the interest accrued on savings accounts based on a given interest rate.
-> ![alt text](image-15.png)
 select Accounts.account_id, balance, intrest_rate,
 (balance * intrest_rate / 100) as  interest_accrued
 from
@@ -217,14 +204,12 @@ Accounts.account_type = 'savings';
 ---------------------------------------------------------------------------------------------------------------------------------------
 
 ---10. Write a SQL query to find the average account balance for all customers.
-> ![alt text](image-16.png)
 select avg(balance) as avg_balance
 from Accounts
-
+group by Customer_id
 ----------------------------------------------------------------------------------------------------------------------------------------
 
 --11. Write a SQL query to calculate the average daily balance for each account over a specified period.
-> ![alt text](image-17.png)
 select Accounts.account_id,avg(balance) as average_balance
 from Accounts
 join Transactions
@@ -235,7 +220,6 @@ group by Accounts.account_id
 ----------------------------------------------------------------------------------------------------------------------------------------
 
 --12. Identify accounts with the highest number of transactions ordered by descending order.
-> ![alt text](image-18.png)
 insert into Transactions
 values(11,3,'deposit',100,'2023-02-22')
 -------------------------------------------
@@ -246,7 +230,6 @@ order by count(account_id) desc
 ---------------------------------------------------------------------------------------------------------------------------------------
 
 --13. List customers with high aggregate account balances, along with their account types.
-> ![alt text](image-19.png)
 select * from customers
 join Accounts
 on Customers.customer_id=Accounts.customer_id
@@ -255,7 +238,7 @@ where Accounts.balance=(select max(Accounts.balance) from Accounts)
 
 ----------------------------------------------------------------------------------------------------------------------------------------
 ---14. Identify and list duplicate transactions based on transaction amount, date, and account.
-> ![alt text](image-20.png)
+
 select amount,transaction_date,account_id,
 count(transaction_id)
 from Transactions
@@ -266,7 +249,6 @@ having count(transaction_id)>1
 ---------------------------------------------------------------------------------------------------------------------------------------
 
 ---15. Calculate the total balance for each account type, including a subquery within the SELECT clause.
-> ![alt text](image-21.png)
 select account_type,sum(balance) as Total_balance
 from Accounts
 group by account_type
